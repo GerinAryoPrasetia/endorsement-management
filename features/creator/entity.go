@@ -11,7 +11,7 @@ type Core struct {
 	Name string
 	Location string
 	Age int
-	SocialMedia SocialMedia
+	SocialMedia []SocialMedia
 }
 
 type SocialMedia struct {
