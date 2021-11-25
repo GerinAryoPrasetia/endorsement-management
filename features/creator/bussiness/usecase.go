@@ -4,7 +4,6 @@ import (
 	"project/features/creator"
 
 	"github.com/go-playground/validator/v10"
-	
 )
 
 type creatorUsecase struct {
@@ -12,8 +11,7 @@ type creatorUsecase struct {
 	validate *validator.Validate
 }
 
-func NewCreatorBussiness (crData creator.Data) creator.Bussiness {
-
+func NewCreatorBussiness(crData creator.Data) creator.Bussiness {
 	return &creatorUsecase{
 		creatorData: crData,
 		validate: validator.New(),
@@ -22,5 +20,10 @@ func NewCreatorBussiness (crData creator.Data) creator.Bussiness {
 
 func (cu *creatorUsecase) GetAllData(search string) (resp []creator.Core) {
 	resp = cu.creatorData.SelectData(search)
+	return
+}
+
+func (cu *creatorUsecase) GetCreatorByName(search string) (resp []creator.Core){
+	resp = cu.creatorData.SelectCreatorByName(search)
 	return
 }

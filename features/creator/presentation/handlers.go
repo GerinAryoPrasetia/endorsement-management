@@ -26,3 +26,12 @@ func (ch *CreatorHandler) GetAllCreator(c echo.Context) error {
 		"data": presentation_response.FromCoreSlice(result),
 	})
 }
+
+func (ch *CreatorHandler) GetCreatorByName(c echo.Context) error {
+	result := ch.creatorBussiness.GetCreatorByName("")
+
+	return c.JSON(http.StatusOK, map[string]interface{}{
+		"message": "success",
+		"data": presentation_response.FromCoreSlice(result),
+	})
+}

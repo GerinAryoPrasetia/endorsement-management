@@ -12,7 +12,7 @@ type Creator struct {
 	Name string `json:"name"`
 	Age int `json:"age"`
 	Location string `json:"location"`
-	SocialMedia creator.SocialMedia `json:"social_media"`
+	SocialMedia []creator.SocialMedia `json:"social_media"`
 }
 
 func FromCore(core creator.Core) Creator {
