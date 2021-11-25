@@ -5,6 +5,7 @@ import (
 
 	"gorm.io/gorm"
 )
+//record struct on data layer
 type Creator struct {
 	gorm.Model
 	Name string
