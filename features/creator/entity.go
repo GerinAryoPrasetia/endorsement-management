@@ -24,8 +24,10 @@ type SocialMedia struct {
 //function abstraction
 type Bussiness interface {
 	GetAllData(search string) (resp []Core)
+	GetCreatorByName(search string) (resp []Core)
 }
 
 type Data interface {
 	SelectData(name string) (resp []Core)
+	SelectCreatorByName(name string) (resp []Core)
 }

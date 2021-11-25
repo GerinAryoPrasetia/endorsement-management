@@ -17,6 +17,8 @@ func NewCreatorRepository(conn *gorm.DB) creator.Data {
 }
 func (ar *mysqlCreatorRepository) SelectData(title string) (resp []creator.Core){
 	var record []Creator
-	
+	if err := ar.Conn.Find(&record).Error; err != nil {
+		return []creator.Core{}
+	}
 	return toCoreList(record)
 }
