@@ -2,20 +2,15 @@ package bussiness
 
 import (
 	"project/features/creator"
-
-	"github.com/go-playground/validator/v10"
 )
 
 type creatorUsecase struct {
 	creatorData creator.Data
-	validate *validator.Validate
+	
 }
 
 func NewCreatorBussiness(crData creator.Data) creator.Bussiness {
-	return &creatorUsecase{
-		creatorData: crData,
-		validate: validator.New(),
-	}
+	return &creatorUsecase{crData}
 }
 
 func (cu *creatorUsecase) GetAllData(data string) (resp []creator.Core) {
@@ -23,9 +18,18 @@ func (cu *creatorUsecase) GetAllData(data string) (resp []creator.Core) {
 	return
 }
 
-func (cu *creatorUsecase) GetCreatorByName(data string) (resp []creator.Core){
+func (cu *creatorUsecase) GetCreatorByName(data string) (resp creator.Core){
 	resp = cu.creatorData.SelectCreatorByName(data)
-	return
+	return resp
+}
+
+func (cu *creatorUsecase) GetCreatorByID(data creator.Core) (creator.Core, error) {
+	resp, err := cu.creatorData.SelectCreatorByID(data)
+	
+	if err != nil {
+		return creator.Core{}, nil
+	}
+	return resp, nil
 }
 
 func (cu *creatorUsecase) RegisterCreator(data creator.Core) error {

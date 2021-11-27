@@ -129,7 +129,7 @@ func toCreatorRecord(creator creator.Core) Creator {
 	}
 }
 //get list
-func (a *Creator) toCore() creator.Core {
+func (a *Creator) ToCore() creator.Core {
 	return creator.Core{
 		ID:		int(a.ID),
 		Name:	a.Name,
@@ -140,10 +140,21 @@ func (a *Creator) toCore() creator.Core {
 	}
 }
 
-func toCoreList(resp []Creator) []creator.Core {
+func ToCore(data Creator) creator.Core {
+	return creator.Core{
+		ID: int(data.ID),
+		Name: data.Name,
+		Location: data.Location,
+		Age: data.Age,
+		CreatedAt: data.CreatedAt,
+		UpdatedAt: data.UpdatedAt,
+	}
+}
+
+func ToCoreList(resp []Creator) []creator.Core {
 	a := []creator.Core{}
 	for key := range resp {
-		a = append(a, resp[key].toCore())
+		a = append(a, resp[key].ToCore())
 	}
 	return a
 }
