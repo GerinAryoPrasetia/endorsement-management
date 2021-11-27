@@ -12,6 +12,6 @@ func New() *echo.Echo {
 	e := echo.New()
 
 	e.GET("/creators", presenter.CreatorPresentation.GetAllCreator)
-
+	e.GET("/creators/:id", presenter.CreatorPresentation.GetCreatorByID)
 	return e
 }

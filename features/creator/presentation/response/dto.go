@@ -11,6 +11,7 @@ type Creator struct {
 	UpdatedAt time.Time	`json:"updated_at"`
 	Name string `json:"name"`
 	Age int `json:"age"`
+	Gender string `json:"gender"`
 	Location string `json:"location"`
 	SocialMedia []creator.SocialMediaCore `json:"social_media"`
 	FeaturedContent []creator.FeaturedContentCore `json:"featured_content"`
@@ -26,6 +27,18 @@ func FromCore(core creator.Core) Creator {
 		Location: core.Location,
 		SocialMedia: core.SocialMedia,
 		FeaturedContent: core.FeaturedContent,
+	}
+}
+
+func ToCreatorResponse(creator creator.Core) Creator {
+	return Creator{
+		ID: creator.ID,
+		Name: creator.Name,
+		Age: creator.Age,
+		Location: creator.Location,
+		Gender: creator.Gender,
+		SocialMedia: creator.SocialMedia,
+		FeaturedContent: creator.FeaturedContent,
 	}
 }
 

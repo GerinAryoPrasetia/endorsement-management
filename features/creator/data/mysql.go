@@ -1,6 +1,7 @@
 package data
 
 import (
+	"errors"
 	"project/features/creator"
 
 	"gorm.io/gorm"
@@ -11,25 +12,24 @@ type mysqlCreatorRepository struct {
 }
 
 func NewCreatorRepository(conn *gorm.DB) creator.Data {
-	return &mysqlCreatorRepository{
-		Conn: conn,
-	}
+	return &mysqlCreatorRepository{Conn: conn}
 }
+
 func (cr *mysqlCreatorRepository) SelectData(name string) (resp []creator.Core){
 	var record []Creator
 	if err := cr.Conn.Find(&record).Error; err != nil {
 		return []creator.Core{}
 	}
-	return toCoreList(record)
+	return ToCoreList(record)
 }
 
-func (cr *mysqlCreatorRepository) SelectCreatorByName(name string) (resp []creator.Core){
-	var record []Creator
+func (cr *mysqlCreatorRepository) SelectCreatorByName(name string) (resp creator.Core){
+	var record Creator
 
 	if err:= cr.Conn.Where("name = ?", name).Find(&record).Error; err != nil {
-		return []creator.Core{}
+		return creator.Core{}
 	}
-	return toCoreList(record)
+	return ToCore(record)
 }
 
 func (cr *mysqlCreatorRepository) InsertData(data creator.Core) error {
@@ -40,4 +40,17 @@ func (cr *mysqlCreatorRepository) InsertData(data creator.Core) error {
 		return err.Error
 	}
 	return nil
+}
+
+func (cr *mysqlCreatorRepository) SelectCreatorByID(data creator.Core) (resp creator.Core, err error) {
+	var recordData Creator
+
+	err = cr.Conn.Find(&recordData, data.ID).Error
+	if recordData.Name == "" && recordData.ID == 0{
+		return creator.Core{}, errors.New("Creator Not Exist")
+	}
+	if err != nil {
+		return creator.Core{}, err
+	}
+	return ToCore(recordData), nil
 }

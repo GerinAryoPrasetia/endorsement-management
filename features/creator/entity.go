@@ -44,12 +44,14 @@ type FeaturedContentCore struct {
 //function abstraction
 type Bussiness interface {
 	GetAllData(data string) (resp []Core)
-	GetCreatorByName(data string) (resp []Core)
+	GetCreatorByName(data string) (resp Core)
 	RegisterCreator(data Core) (err error)
+	GetCreatorByID(data Core) (creator Core, err error)
 }
 
 type Data interface {
 	SelectData(name string) (resp []Core)
-	SelectCreatorByName(name string) (resp []Core)
+	SelectCreatorByName(name string) (resp Core)
 	InsertData(data Core) (err error)
+	SelectCreatorByID(data Core) (creator Core, err error)
 }
