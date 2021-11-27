@@ -18,12 +18,22 @@ func NewCreatorBussiness(crData creator.Data) creator.Bussiness {
 	}
 }
 
-func (cu *creatorUsecase) GetAllData(search string) (resp []creator.Core) {
-	resp = cu.creatorData.SelectData(search)
+func (cu *creatorUsecase) GetAllData(data string) (resp []creator.Core) {
+	resp = cu.creatorData.SelectData(data)
 	return
 }
 
-func (cu *creatorUsecase) GetCreatorByName(search string) (resp []creator.Core){
-	resp = cu.creatorData.SelectCreatorByName(search)
+func (cu *creatorUsecase) GetCreatorByName(data string) (resp []creator.Core){
+	resp = cu.creatorData.SelectCreatorByName(data)
 	return
+}
+
+func (cu *creatorUsecase) RegisterCreator(data creator.Core) error {
+	err := cu.creatorData.InsertData(data)
+
+	if err != nil {
+		return err
+	}
+
+	return nil
 }
