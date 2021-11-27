@@ -5,6 +5,7 @@ import (
 
 	"gorm.io/gorm"
 )
+
 //record struct on data layer
 type Creator struct {
 	gorm.Model
@@ -16,7 +17,8 @@ type Creator struct {
 	Password string
 	Bio string
 	Category []Category `gorm:"many2many:creator_category;"`
-	SocialMedia []SocialMedia
+	SocialMedia []SocialMedia `gorm:"foreignKey:CreatorID"`
+	FeaturedContent []FeaturedContent
 }
 
 type Category struct {
@@ -37,6 +39,7 @@ type SocialMedia struct {
 
 type FeaturedContent struct {
 	gorm.Model
+	CreatorID int
 	Url string
 }
 
@@ -47,8 +50,23 @@ func toCategoryRecords(category []creator.CategoryCore) []Category {
 			CategoryName: cat.CategoryName,
 		})
 	}
-
+	
 	return convertedCategory
+}
+
+func toCategoryCore(cat Category) creator.CategoryCore {
+	return creator.CategoryCore{
+		ID: int(cat.ID),
+		CategoryName: cat.CategoryName,
+	}
+}
+
+func toCategoryCoreList(categoryList []Category) []creator.CategoryCore{
+	catList := []creator.CategoryCore{}
+	for _, category := range categoryList {
+		catList = append(catList, toCategoryCore(category))
+	}
+	return catList
 }
 
 func toSocialMediaRecords(socmed []creator.SocialMediaCore) []SocialMedia {
@@ -66,7 +84,26 @@ func toSocialMediaRecords(socmed []creator.SocialMediaCore) []SocialMedia {
 	return convertedSocmed
 }
 
-func toFeaturedRecords(cont []creator.FeaturedContent) []FeaturedContent {
+func toSocialMediaCore(socmed SocialMedia) creator.SocialMediaCore {
+	return creator.SocialMediaCore{
+		ID: int(socmed.ID),
+		CreatorID: socmed.CreatorID,
+		Name: socmed.SocialMediaName,
+		Followers: socmed.Followers,
+		VerifiedStatus: socmed.VerifiedStatus,
+		Url: socmed.Url,
+	}
+}
+
+func toSocialMediaCoreList(socmedList []SocialMedia) []creator.SocialMediaCore {
+	sl := []creator.SocialMediaCore{}
+	for _,socmed := range socmedList {
+		sl = append(sl, toSocialMediaCore(socmed))
+	}
+	return sl
+}
+
+func toFeaturedRecords(cont []creator.FeaturedContentCore) []FeaturedContent {
 	convertedContent := []FeaturedContent{}
 	for _,con := range cont {
 		convertedContent = append(convertedContent, FeaturedContent{
@@ -88,6 +125,7 @@ func toCreatorRecord(creator creator.Core) Creator {
 		Bio: creator.Bio,
 		Category: toCategoryRecords(creator.Category),
 		SocialMedia: toSocialMediaRecords(creator.SocialMedia),
+		FeaturedContent: toFeaturedRecords(creator.FeaturedContent),
 	}
 }
 //get list

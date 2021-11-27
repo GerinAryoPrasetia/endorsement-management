@@ -1,8 +1,8 @@
 package response
 
 import (
-	"time"
 	"project/features/creator"
+	"time"
 )
 
 type Creator struct {
@@ -13,6 +13,7 @@ type Creator struct {
 	Age int `json:"age"`
 	Location string `json:"location"`
 	SocialMedia []creator.SocialMediaCore `json:"social_media"`
+	FeaturedContent []creator.FeaturedContentCore `json:"featured_content"`
 }
 
 func FromCore(core creator.Core) Creator {
@@ -24,6 +25,7 @@ func FromCore(core creator.Core) Creator {
 		Age: core.Age,
 		Location: core.Location,
 		SocialMedia: core.SocialMedia,
+		FeaturedContent: core.FeaturedContent,
 	}
 }
 

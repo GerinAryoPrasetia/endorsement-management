@@ -31,3 +31,13 @@ func (cr *mysqlCreatorRepository) SelectCreatorByName(name string) (resp []creat
 	}
 	return toCoreList(record)
 }
+
+func (cr *mysqlCreatorRepository) InsertData(data creator.Core) error {
+	recordData := toCreatorRecord(data)
+	err := cr.Conn.Create(&recordData)
+	
+	if err != nil {
+		return err.Error
+	}
+	return nil
+}

@@ -16,16 +16,17 @@ type Core struct {
 	Email string
 	Password string
 	SocialMedia []SocialMediaCore
-	Category []CategoryCore 
+	Category []CategoryCore
+	FeaturedContent []FeaturedContentCore 
 }
 
 type SocialMediaCore struct {
 	ID int
+	CreatorID int
 	Name string
 	Url string
 	Followers int
 	VerifiedStatus bool
-	CreatorID int
 	RatePrice int
 }
 
@@ -34,18 +35,21 @@ type CategoryCore struct {
 	CategoryName string
 }
 
-type FeaturedContent struct {
+type FeaturedContentCore struct {
 	ID int
+	UserID int
 	Url string
 }
 
 //function abstraction
 type Bussiness interface {
-	GetAllData(search string) (resp []Core)
-	GetCreatorByName(search string) (resp []Core)
+	GetAllData(data string) (resp []Core)
+	GetCreatorByName(data string) (resp []Core)
+	RegisterCreator(data Core) (err error)
 }
 
 type Data interface {
 	SelectData(name string) (resp []Core)
 	SelectCreatorByName(name string) (resp []Core)
+	InsertData(data Core) (err error)
 }
