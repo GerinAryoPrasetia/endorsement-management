@@ -140,7 +140,7 @@ func (a *Creator) ToCore() creator.Core {
 	}
 }
 
-func ToCore(data Creator) creator.Core {
+func ToCore(data *Creator) creator.Core {
 	return creator.Core{
 		ID: int(data.ID),
 		Name: data.Name,

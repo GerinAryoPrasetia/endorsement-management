@@ -29,17 +29,25 @@ func (cr *mysqlCreatorRepository) SelectCreatorByName(name string) (resp creator
 	if err:= cr.Conn.Where("name = ?", name).Find(&record).Error; err != nil {
 		return creator.Core{}
 	}
-	return ToCore(record)
+	return ToCore(&record)
 }
 
-func (cr *mysqlCreatorRepository) InsertData(data creator.Core) error {
-	recordData := toCreatorRecord(data)
-	err := cr.Conn.Create(&recordData)
-	
-	if err != nil {
-		return err.Error
+func (cr *mysqlCreatorRepository) InsertData(data creator.Core) (creator.Core, error) {
+	newCreator := Creator{
+		Name: data.Name,
+		Email: data.Email,
+		Password: data.Password,
+		Location: data.Location,
+		Age: data.Age,
+		Gender: data.Gender,
+		Bio: data.Bio,
 	}
-	return nil
+	
+	err := cr.Conn.Create(&newCreator).Error
+	if err != nil {
+		return creator.Core{}, err
+	}
+	return ToCore(&newCreator), nil
 }
 
 func (cr *mysqlCreatorRepository) SelectCreatorByID(data creator.Core) (resp creator.Core, err error) {
@@ -52,5 +60,5 @@ func (cr *mysqlCreatorRepository) SelectCreatorByID(data creator.Core) (resp cre
 	if err != nil {
 		return creator.Core{}, err
 	}
-	return ToCore(recordData), nil
+	return ToCore(&recordData), nil
 }
