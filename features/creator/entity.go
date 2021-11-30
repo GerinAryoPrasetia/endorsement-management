@@ -45,7 +45,7 @@ type FeaturedContentCore struct {
 type Bussiness interface {
 	GetAllData(data string) (resp []Core)
 	GetCreatorByName(data string) (resp Core)
-	RegisterCreator(data Core) (creator Core, err error)
+	RegisterCreator(data Core) (creator Core,  err error)
 	GetCreatorByID(data Core) (creator Core, err error)
 }
 
