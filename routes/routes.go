@@ -13,5 +13,7 @@ func New() *echo.Echo {
 
 	e.GET("/creators", presenter.CreatorPresentation.GetAllCreator)
 	e.GET("/creators/:id", presenter.CreatorPresentation.GetCreatorByID)
+
+	e.POST("/creator", presenter.CreatorPresentation.RegisterCreator)
 	return e
 }

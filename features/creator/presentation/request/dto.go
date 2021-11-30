@@ -2,15 +2,15 @@ package request
 
 import "project/features/creator"
 
-type Creator struct {
+type CreatorRequest struct {
 	ID int `json:"id"`
 	Name string `json:"name"`
 	Location string `json:"location"`
 	Age int `json:"age"`
-	Bio int `json:"bio"`
+	Bio string `json:"bio"`
 }
 
-func ToCreatorCore(cr Creator) creator.Core {
+func ToCreatorCore(cr CreatorRequest) creator.Core {
 	return creator.Core{
 		ID: cr.ID,
 		Name: cr.Name,

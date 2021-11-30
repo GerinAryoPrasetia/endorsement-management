@@ -3,6 +3,7 @@ package presentation
 import (
 	"net/http"
 	"project/features/creator"
+	"project/features/creator/presentation/request"
 	presentation_response "project/features/creator/presentation/response"
 	"strconv"
 
@@ -56,5 +57,26 @@ func (ch *CreatorHandler) GetCreatorByID(c echo.Context) error {
 	return c.JSON(http.StatusOK, map[string]interface{}{
 		"message": "Success",
 		"data": presentation_response.ToCreatorResponse(data),
+	})
+}
+
+func (ch *CreatorHandler) RegisterCreator(c echo.Context) error {
+	reqData := request.CreatorRequest{}
+
+	err:= c.Bind(&reqData)
+	if err!= nil {
+		return c.JSON(http.StatusBadRequest, map[string]interface{}{
+			"message": err.Error(),
+		})
+	}
+
+	_, err = ch.creatorBussiness.RegisterCreator(request.ToCreatorCore(reqData))	
+	if err != nil {
+		return c.JSON(http.StatusInternalServerError, map[string]interface{}{
+			"message": err.Error(),
+		})
+	}
+	return c.JSON(http.StatusOK, map[string]interface{}{
+		"message": "success",
 	})
 }
