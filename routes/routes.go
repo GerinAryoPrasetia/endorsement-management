@@ -15,5 +15,6 @@ func New() *echo.Echo {
 	e.GET("/creators/:id", presenter.CreatorPresentation.GetCreatorByID)
 
 	e.POST("/creator", presenter.CreatorPresentation.RegisterCreator)
+	e.DELETE("/creator/:id", presenter.CreatorPresentation.DeleteCreator)
 	return e
 }

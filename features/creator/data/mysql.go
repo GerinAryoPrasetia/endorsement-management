@@ -62,3 +62,27 @@ func (cr *mysqlCreatorRepository) SelectCreatorByID(data creator.Core) (resp cre
 	}
 	return ToCore(&recordData), nil
 }
+
+func (cr *mysqlCreatorRepository) UpdateData(data creator.Core) (error) {
+	err := cr.Conn.Debug().Model(&Creator{}).Where("id = ?", data.ID).Updates(Creator{
+		Name: data.Name,
+		Age: data.Age,
+		Location: data.Location,
+		Gender: data.Gender,
+		Bio: data.Bio,
+	}).Error
+	if err != nil {
+		return nil
+	}
+	return nil
+}
+
+func (cr *mysqlCreatorRepository) DeleteCreator(data creator.Core) error {
+	err := cr.Conn.Debug().Delete(&Creator{}, data.ID).Error
+
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
