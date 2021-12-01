@@ -4,6 +4,7 @@ import (
 	"net/http"
 	"project/features/creator"
 	"project/features/creator/presentation/request"
+	"project/features/creator/presentation/response"
 	presentation_response "project/features/creator/presentation/response"
 	"strconv"
 
@@ -78,5 +79,37 @@ func (ch *CreatorHandler) RegisterCreator(c echo.Context) error {
 	}
 	return c.JSON(http.StatusOK, map[string]interface{}{
 		"message": "success",
+	})
+}
+
+func (ch *CreatorHandler) UpdateCreator(c echo.Context) error {
+	var creatorData request.CreatorRequest
+	err := c.Bind(&creatorData)
+
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, map[string]interface{}{
+			"message": err.Error(),
+		})
+	}
+	return c.JSON(http.StatusOK, map[string]interface{}{
+		"message": "success",
+	})
+}
+
+func (ch *CreatorHandler) DeleteCreator(c echo.Context) error {
+
+	id, err := strconv.Atoi(c.Param("id"))
+
+	if err != nil {
+		return response.NewErrorResponse(c, err.Error(), http.StatusBadRequest)
+	}
+
+	err = ch.creatorBussiness.DeleteCreator(creator.Core{ID: id})
+
+	if err != nil {
+		return response.NewErrorResponse(c, err.Error(), http.StatusInternalServerError)
+	}
+	return c.JSON(http.StatusOK, map[string]interface{}{
+		"message" : "berhasil menghapus creator",
 	})
 }

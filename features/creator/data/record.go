@@ -125,7 +125,7 @@ func toCreatorRecord(creator creator.Core) Creator {
 		Bio: creator.Bio,
 		Category: toCategoryRecords(creator.Category),
 		SocialMedia: toSocialMediaRecords(creator.SocialMedia),
-		FeaturedContent: toFeaturedRecords(creator.FeaturedContent),
+		// FeaturedContent: toFeaturedRecords(creator.FeaturedContent),
 	}
 }
 //get list

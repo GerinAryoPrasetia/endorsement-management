@@ -17,7 +17,6 @@ type Core struct {
 	Password string
 	SocialMedia []SocialMediaCore
 	Category []CategoryCore
-	FeaturedContent []FeaturedContentCore 
 }
 
 type SocialMediaCore struct {
@@ -28,6 +27,7 @@ type SocialMediaCore struct {
 	Followers int
 	VerifiedStatus bool
 	RatePrice int
+	FeaturedContent []FeaturedContentCore 
 }
 
 type CategoryCore struct {
@@ -47,6 +47,8 @@ type Bussiness interface {
 	GetCreatorByName(data string) (resp Core)
 	RegisterCreator(data Core) (creator Core,  err error)
 	GetCreatorByID(data Core) (creator Core, err error)
+	UpdateCreator(data Core) error
+	DeleteCreator(data Core) (err error)
 }
 
 type Data interface {
@@ -54,4 +56,6 @@ type Data interface {
 	SelectCreatorByName(name string) (resp Core)
 	InsertData(data Core) (creator Core, err error)
 	SelectCreatorByID(data Core) (creator Core, err error)
+	UpdateData(data Core) error
+	DeleteCreator(data Core) (err error)
 }
