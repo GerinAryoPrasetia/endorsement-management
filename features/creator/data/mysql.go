@@ -63,18 +63,24 @@ func (cr *mysqlCreatorRepository) SelectCreatorByID(data creator.Core) (resp cre
 	return ToCore(&recordData), nil
 }
 
-func (cr *mysqlCreatorRepository) UpdateData(data creator.Core) (error) {
-	err := cr.Conn.Debug().Model(&Creator{}).Where("id = ?", data.ID).Updates(Creator{
+func (cr *mysqlCreatorRepository) UpdateData(id int, data creator.Core) (err error) {
+	// err := cr.Conn.Debug().Model(&Creator{}).Where("id = ?", data.ID).Updates(Creator{
+	// 	Name: data.Name,
+	// 	Age: data.Age,
+	// 	Location: data.Location,
+	// 	Gender: data.Gender,
+	// 	Bio: data.Bio,
+	// }).Error
+	record := Creator{
 		Name: data.Name,
 		Age: data.Age,
 		Location: data.Location,
-		Gender: data.Gender,
 		Bio: data.Bio,
-	}).Error
-	if err != nil {
-		return nil
 	}
-	return nil
+	if err = cr.Conn.Model(&record).Where("id = ?", id).Updates(Creator{Name: record.Name, Gender: record.Gender, Age: record.Age, Location: record.Location, Bio: record.Bio}).Error; err != nil {
+		return err
+	}
+	return
 }
 
 func (cr *mysqlCreatorRepository) DeleteCreator(data creator.Core) error {

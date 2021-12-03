@@ -47,7 +47,7 @@ type Bussiness interface {
 	GetCreatorByName(data string) (resp Core)
 	RegisterCreator(data Core) (creator Core,  err error)
 	GetCreatorByID(data Core) (creator Core, err error)
-	UpdateCreator(data Core) error
+	UpdateCreator(id int, newData Core) error
 	DeleteCreator(data Core) (err error)
 }
 
@@ -56,6 +56,6 @@ type Data interface {
 	SelectCreatorByName(name string) (resp Core)
 	InsertData(data Core) (creator Core, err error)
 	SelectCreatorByID(data Core) (creator Core, err error)
-	UpdateData(data Core) error
+	UpdateData(id int, newData Core) error
 	DeleteCreator(data Core) (err error)
 }

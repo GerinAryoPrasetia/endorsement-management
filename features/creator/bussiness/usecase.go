@@ -41,8 +41,8 @@ func (cu *creatorUsecase) RegisterCreator(data creator.Core) (creator.Core, erro
 	return newCreator, err
 }
 
-func (cu *creatorUsecase) UpdateCreator(data creator.Core) error {
-	err := cu.creatorData.UpdateData(data)
+func (cu *creatorUsecase) UpdateCreator(id int, data creator.Core) error {
+	err := cu.creatorData.UpdateData(id, data)
 	if err != nil {
 		return err
 	}
