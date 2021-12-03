@@ -16,6 +16,7 @@ type Creator struct {
 	Gender string `json:"gender"`
 	Location string `json:"location"`
 	SocialMedia []SocialMediaResponse `json:"social_media"`
+	Token string `json:"token"`
 	// FeaturedContent []creator.FeaturedContentCore `json:"featured_content"`
 }
 
