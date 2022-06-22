@@ -11,23 +11,51 @@ type Core struct {
 	Name string
 	Location string
 	Age int
-	SocialMedia SocialMedia
+	Gender string
+	Bio string
+	Email string
+	Password string
+	SocialMedia []SocialMediaCore
+	Category []CategoryCore
 }
 
-type SocialMedia struct {
+type SocialMediaCore struct {
+	ID int
+	CreatorID int
 	Name string
 	Url string
 	Followers int
 	VerifiedStatus bool
+	RatePrice int
+	FeaturedContent []FeaturedContentCore 
+}
+
+type CategoryCore struct {
+	ID int
+	CategoryName string
+}
+
+type FeaturedContentCore struct {
+	ID int
+	UserID int
+	Url string
 }
 
 //function abstraction
 type Bussiness interface {
-	GetAllData(search string) (resp []Core)
-	GetCreatorByName(search string) (resp []Core)
+	GetAllData(data string) (resp []Core)
+	GetCreatorByName(data string) (resp Core)
+	RegisterCreator(data Core) (creator Core,  err error)
+	GetCreatorByID(data Core) (creator Core, err error)
+	UpdateCreator(id int, newData Core) error
+	DeleteCreator(data Core) (err error)
 }
 
 type Data interface {
 	SelectData(name string) (resp []Core)
-	SelectCreatorByName(name string) (resp []Core)
+	SelectCreatorByName(name string) (resp Core)
+	InsertData(data Core) (creator Core, err error)
+	SelectCreatorByID(data Core) (creator Core, err error)
+	UpdateData(id int, newData Core) error
+	DeleteCreator(data Core) (err error)
 }

@@ -7,6 +7,9 @@ import (
 
 func AutoMigrate(){
 	config.DB.AutoMigrate(
-		&m_creator.Creator{},
+		&m_creator.Creator{}, 
+		&m_creator.Category{},
+		&m_creator.SocialMedia{},
+		&m_creator.FeaturedContent{},
 	)
 }
