@@ -15,7 +15,7 @@ func NewCreatorRepository(conn *gorm.DB) creator.Data {
 	return &mysqlCreatorRepository{Conn: conn}
 }
 
-func (cr *mysqlCreatorRepository) SelectData(name string) (resp []creator.Core){
+func (cr *mysqlCreatorRepository) SelectData(name string) (resp []creator.Core) {
 	var record []Creator
 	if err := cr.Conn.Find(&record).Error; err != nil {
 		return []creator.Core{}
@@ -23,10 +23,10 @@ func (cr *mysqlCreatorRepository) SelectData(name string) (resp []creator.Core){
 	return ToCoreList(record)
 }
 
-func (cr *mysqlCreatorRepository) SelectCreatorByName(name string) (resp creator.Core){
+func (cr *mysqlCreatorRepository) SelectCreatorByName(name string) (resp creator.Core) {
 	var record Creator
 
-	if err:= cr.Conn.Where("name = ?", name).Find(&record).Error; err != nil {
+	if err := cr.Conn.Where("name = ?", name).Find(&record).Error; err != nil {
 		return creator.Core{}
 	}
 	return ToCore(&record)
@@ -34,15 +34,15 @@ func (cr *mysqlCreatorRepository) SelectCreatorByName(name string) (resp creator
 
 func (cr *mysqlCreatorRepository) InsertData(data creator.Core) (creator.Core, error) {
 	newCreator := Creator{
-		Name: data.Name,
-		Email: data.Email,
+		Name:     data.Name,
+		Email:    data.Email,
 		Password: data.Password,
 		Location: data.Location,
-		Age: data.Age,
-		Gender: data.Gender,
-		Bio: data.Bio,
+		Age:      data.Age,
+		Gender:   data.Gender,
+		Bio:      data.Bio,
 	}
-	
+
 	err := cr.Conn.Create(&newCreator).Error
 	if err != nil {
 		return creator.Core{}, err
@@ -54,7 +54,7 @@ func (cr *mysqlCreatorRepository) SelectCreatorByID(data creator.Core) (resp cre
 	var recordData Creator
 
 	err = cr.Conn.Find(&recordData, data.ID).Error
-	if recordData.Name == "" && recordData.ID == 0{
+	if recordData.Name == "" && recordData.ID == 0 {
 		return creator.Core{}, errors.New("Creator Not Exist")
 	}
 	if err != nil {
@@ -72,10 +72,10 @@ func (cr *mysqlCreatorRepository) UpdateData(id int, data creator.Core) (err err
 	// 	Bio: data.Bio,
 	// }).Error
 	record := Creator{
-		Name: data.Name,
-		Age: data.Age,
+		Name:     data.Name,
+		Age:      data.Age,
 		Location: data.Location,
-		Bio: data.Bio,
+		Bio:      data.Bio,
 	}
 	if err = cr.Conn.Model(&record).Where("id = ?", id).Updates(Creator{Name: record.Name, Gender: record.Gender, Age: record.Age, Location: record.Location, Bio: record.Bio}).Error; err != nil {
 		return err

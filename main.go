@@ -10,6 +10,6 @@ func main() {
 	config.InitDB()
 	migrate.AutoMigrate()
 
-	e:=routes.New()
+	e := routes.New()
 	e.Start(":8800")
 }
